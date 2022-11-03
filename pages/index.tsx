@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import('@radio4000/components/dist/index.js')
 
 type IndexProps = {
 	wildcard: string;
@@ -11,7 +10,7 @@ export default function Home(props: IndexProps) {
 	const [wildcard, setWildcard] = useState('')
 	useEffect(() => {
 		setWildcard(window.location.hostname.split('.')[0])
-}, [])
+	}, [])
 	return (
 		<div className={styles.container}>
 			<Head>
