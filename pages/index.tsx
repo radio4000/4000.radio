@@ -11,6 +11,9 @@ export default function Home(props: IndexProps) {
 	useEffect(() => {
 		setWildcard(window.location.hostname.split('.')[0])
 	}, [])
+
+	console.log('props.wildcard', props.wildcard)
+	console.log('wildcard', wildcard)
 	return (
 		<div className={styles.container}>
 			<Head>
