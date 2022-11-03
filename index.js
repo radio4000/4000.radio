@@ -36,10 +36,10 @@ export default class R4Radio extends HTMLElement {
 
 	renderChannel(slug) {
 		this.innerHTML = ''
-		const $channel = document.createElement('r4-app')
-		$channel.setAttribute('origin', window.location.origin)
-		$channel.setAttribute('channel', slug)
-		this.append($channel)
+		const $app = document.createElement('r4-app')
+		$app.setAttribute('href', window.location.origin)
+		$app.setAttribute('channel', slug)
+		this.append($app)
 	}
 	renderHome() {
 		this.innerHTML = ''

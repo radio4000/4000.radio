@@ -62,5 +62,6 @@ a {
 
 /* app */
 r4-radio {
+	flex-grow: 1;
 	padding: var(--size);
 }
