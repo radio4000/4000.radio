@@ -37,8 +37,7 @@ html {
 
 /* variables applied */
 :root,
-:host,
-r4-app {
+:host {
 	font-size: var(--size-font);
 	background-color: var(--color-background);
 	color: var(--color-text);
@@ -47,9 +46,6 @@ r4-app {
 /* layout */
 body {
 	margin: 0;
-}
-r4-app {
-	display: flex;
 }
 
 /* text */
