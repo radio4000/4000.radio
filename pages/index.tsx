@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-export default function Home(props) {
+type IndexProps = {
+		wildcard: string;
+}
+
+export default function Home(props: IndexProps) {
 	const [wildcard, setWildcard] = useState('')
 	useEffect(() => {
 		setWildcard(window.location.hostname.split('.')[0])
