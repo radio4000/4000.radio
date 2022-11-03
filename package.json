@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "npx serve .",
-		"build": "ls -la"
+		"build": "mkdir public && cp index.* public/ && cp env.production.json public/env.json"
   },
   "repository": {
     "type": "git",
