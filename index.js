@@ -30,7 +30,7 @@ export default class R4Radio extends HTMLElement {
 		}
 	}
 	async importComponents() {
-		const Components = await import('https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.26/dist/index.js')
+		const Components = await import('https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.27/dist/index.js')
 		console.log('Components imported', Components)
 	}
 
