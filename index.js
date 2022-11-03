@@ -17,21 +17,28 @@ export default class R4Radio extends HTMLElement {
 		return wildcard
 	}
 
-	connectedCallback() {
+	constructor() {
+		super()
+	}
+
+	async connectedCallback() {
+		await this.importComponents()
 		if (this.slug) {
 			this.renderChannel(this.slug)
 		} else {
 			this.renderHome()
 		}
 	}
+	async importComponents() {
+		const Components = await import('https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.26/dist/index.js')
+		console.log('Components imported', Components)
+	}
 
 	renderChannel(slug) {
 		this.innerHTML = ''
-		const $channel = document.createElement('r4-page-channel')
-		$channel.setAttribute('slug', slug)
-		$channel.setAttribute('limit', 1000)
-		$channel.setAttribute('pagination', true)
+		const $channel = document.createElement('r4-app')
 		$channel.setAttribute('origin', window.location.origin)
+		$channel.setAttribute('channel', slug)
 		this.append($channel)
 	}
 	renderHome() {

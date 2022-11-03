@@ -35,6 +35,18 @@ html {
 	}
 }
 
+html {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
 /* variables applied */
 :root,
 :host {
@@ -43,12 +55,12 @@ html {
 	color: var(--color-text);
 }
 
-/* layout */
-body {
-	margin: 0;
-}
-
 /* text */
 a {
 	color: var(--color-text);
+}
+
+/* app */
+r4-radio {
+	padding: var(--size);
 }
