@@ -5,7 +5,8 @@ import type { AppProps } from 'next/app'
 declare global {
 	namespace JSX {
 		interface IntrinsicElements {
-			'r4-channel': { slug: string }
+			'r4-channel': { slug: string },
+			'r4-title': { size?: string },
 		}
 	}
 }

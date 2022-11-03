@@ -20,15 +20,17 @@ export default function Home(props: IndexProps) {
 			</Head>
 
 			<main className={styles.main}>
-				<p>props.wildcard {props.wildcard}</p>
-				<p>wildcard {wildcard}</p>
-				<r4-channel slug={wildcard}></r4-channel>
+				{props.wildcard ? (
+					<r4-channel slug={props.wildcard}></r4-channel>
+				) : (
+					<article>
+						<p>
+							Welcome to <a href="https://radio4000.com"><r4-title /></a>.
+						</p>
+					</article>
+				)}
 			</main>
-
-			<footer className={styles.footer}>
-				radio4000 radio profile
-			</footer>
-		</div>
+		</div >
 	)
 }
 
@@ -43,6 +45,6 @@ export async function getServerSideProps(context: any) {
 		})[0]
 		return { props: { wildcard } }
 	} else {
-		return { props: { } }
+		return { props: {} }
 	}
 }
