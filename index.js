@@ -9,18 +9,14 @@ export default class R4Radio extends HTMLElement {
 	}
 	/* the slug comes from the wildcard subdomain */
 	get slug() {
-		let parts = window.location.hostname.split('.')
-		if (
-			parts.length === 2
-			&& parts.indexOf(this.hostname) > -1
-		) {
-			const wildcard = parts.filter((part) => {
-				return part !== this.hostname
-			})[0]
-			return wildcard
-		} else {
-			return null
+		if (!window.location.hostname.endsWith(`.${this.hostname}`)) {
+			return ''
 		}
+		let parts = window.location.hostname.split('.').filter((part) => {
+			return part !== this.hostname
+		})
+		const wildcard = parts[parts.length - 1]
+		return wildcard
 	}
 
 	connectedCallback() {
