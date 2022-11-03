@@ -4,12 +4,25 @@ import styles from '../styles/Home.module.css'
 
 type IndexProps = {
 	wildcard: string;
+	ROOT_DOMAIN: string;
 }
 
 export default function Home(props: IndexProps) {
-	const [wildcard, setWildcard] = useState('')
+	const [wildcard, setWildcard] = useState(props.wildcard)
+
 	useEffect(() => {
-		setWildcard(window.location.hostname.split('.')[0])
+		let parts = window.location.hostname.split('.')
+		if (
+			parts.length === 2
+			&& parts.indexOf(props.ROOT_DOMAIN) > -1
+		) {
+			const wildcard = parts.filter((part: string) => {
+				return part !== props.ROOT_DOMAIN
+			})[0]
+			setWildcard(wildcard)
+		} else {
+			setWildcard('')
+		}
 	}, [])
 
 	console.log('props.wildcard', props.wildcard)
@@ -38,6 +51,12 @@ export default function Home(props: IndexProps) {
 }
 
 export async function getServerSideProps(context: any) {
+	let config = {
+		props: {
+			wildcard: '',
+			ROOT_DOMAIN: process.env.ROOT_DOMAIN
+		}
+	}
 	let parts = context.req.headers.host.split('.')
 	if (
 		parts.length === 2
@@ -46,8 +65,7 @@ export async function getServerSideProps(context: any) {
 		const wildcard = parts.filter((part: string) => {
 			return part !== process.env.ROOT_DOMAIN
 		})[0]
-		return { props: { wildcard } }
-	} else {
-		return { props: {} }
+		config.props.wildcard = wildcard
 	}
+	return config
 }
