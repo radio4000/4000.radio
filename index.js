@@ -1,6 +1,6 @@
 export default class R4Radio extends HTMLElement {
 	static get observedAttributes() {
-		return ['hostname']
+		return ['hostname', 'slug']
 	}
 	/* the hostname is the root domain,
 		 on which the r4 radio profile app is running */
@@ -9,13 +9,11 @@ export default class R4Radio extends HTMLElement {
 	}
 	/* the slug comes from the wildcard subdomain */
 	get slug() {
-		if (!window.location.hostname.endsWith(`.${this.hostname}`)) {
+		if (!window.location.hostname.endsWith('.' + this.hostname)) {
 			return ''
 		}
-		let parts = window.location.hostname.split('.').filter((part) => {
-			return part !== this.hostname
-		})
-		const wildcard = parts[parts.length - 1]
+		const subdomains = window.location.hostname.replace('.' + this.hostname, '').split('.')
+		const wildcard = subdomains[subdomains.length - 1]
 		return wildcard
 	}
 
