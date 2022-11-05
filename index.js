@@ -31,10 +31,18 @@ export default class R4Radio extends HTMLElement {
 
 	async connectedCallback() {
 		await this.importStyles()
-		await this.importComponents()
+		const {
+			lib: { sdk } = {}
+		} = await this.importComponents()
 		if (this.channel) {
 			this.setAttribute('channel', this.channel)
-			this.renderChannel(this.channel)
+			const { data: channelData } = await sdk.channels.readChannel(this.channel)
+			if (channelData) {
+				this.renderChannel(this.channel)
+			} else {
+				const { data: firebaseChannelData } = await sdk.channels.readFirebaseChannel(this.channel)
+				this.renderFirebaseChannel(firebaseChannelData)
+			}
 		} else {
 			this.renderHome()
 		}
@@ -48,8 +56,20 @@ export default class R4Radio extends HTMLElement {
 		console.log('CSS styles imported and inserted', $stylesLink)
 	}
 	async importComponents() {
-		const Components = await import(`${this.componentsUrl}/dist/index.js`)
+		const url = this.hostname === 'localhost' ? `${this.componentsUrl}/index.js` : `${this.componentsUrl}/dist/index.js`
+		const Components = await import(url)
 		console.log('Javascript web-components imported', Components)
+		if (Components && Components.default) {
+			return Components.default
+		}
+		return {}
+	}
+
+	renderHome() {
+		this.innerHTML = ''
+		const $info = document.createElement('article')
+		$info.innerHTML = `Welcome to <a href="https://radio4000.com"><r4-title></r4-title></a>`
+		this.append($info)
 	}
 
 	renderChannel(slug) {
@@ -60,10 +80,49 @@ export default class R4Radio extends HTMLElement {
 		this.singleChannel && $app.setAttribute('single-channel', this.singleChannel)
 		this.append($app)
 	}
-	renderHome() {
-		this.innerHTML = ''
-		const $info = document.createElement('article')
-		$info.innerHTML = `Welcome to <a href="https://radio4000.com"><r4-title></r4-title></a>`
-		this.append($info)
+	renderFirebaseChannel(channel) {
+		const $app = document.createElement('r4-app-firebase')
+		$app.setAttribute('href', window.location.origin)
+		$app.setAttribute('channel', channel.slug)
+		this.append($app)
 	}
 }
+
+class R4FirebaseApp extends HTMLElement {
+	connectedCallback() {
+		this.render(this.getAttribute('channel'))
+	}
+	render(slug) {
+		/* <iframe src="https://api.radio4000.com/embed?slug=good-time-radio"></iframe> */
+		const iframeSrc = `https://api.radio4000.com/embed?slug=${slug}`
+		const $iframe = document.createElement('iframe')
+		$iframe.setAttribute('frameborder', 0)
+		$iframe.setAttribute('src', iframeSrc)
+		$iframe.setAttribute('width', '100%')
+		$iframe.setAttribute('height', '100%')
+
+		const $dialog = document.createElement('r4-dialog')
+		const $dialogSlot = document.createElement('div')
+		$dialogSlot.setAttribute('slot', 'dialog')
+
+		const $dialogMessage = document.createElement('p')
+		$dialogMessage.innerText = 'Welcome to '
+		const $dialogLink = document.createElement('a')
+		$dialogLink.setAttribute('href', `https://radio4000.com/${slug}`)
+		$dialogLink.innerText = `${slug}@r4`
+		$dialogMessage.append($dialogLink)
+
+		const $dialogWarning = document.createElement('code')
+		$dialogWarning.innerText = 'This radio channel has not yet migrated to the new radio4000 systems, still in beta version.'
+
+		$dialogSlot.append($dialogMessage)
+		$dialogSlot.append($dialogWarning)
+
+		$dialog.append($dialogSlot)
+
+		this.append($iframe)
+		this.append($dialog)
+		$dialog.setAttribute('visible', true)
+	}
+}
+customElements.define('r4-app-firebase', R4FirebaseApp)
