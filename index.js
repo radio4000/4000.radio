@@ -13,20 +13,22 @@ export default class R4Radio extends HTMLElement {
 	/* the hostname is the root domain,
 		 on which the r4 radio profile app is running */
 	get hostname() {
-		return this.getAttribute('hostname')
+		return this.getAttribute('hostname') || window.location.hostname
+	}
+	get origin() {
+		return new URL(`https://${this.hostname || window.location.origin}`)
+	}
+	get allowedOrigins() {
+		return [this.origin]
 	}
 	/* the slug comes from the wildcard subdomain */
 	get channel() {
-		if (!window.location.hostname.endsWith('.' + this.hostname)) {
+		if (!window.location.host.endsWith('.' + this.hostname)) {
 			return ''
 		}
-		const subdomains = window.location.hostname.replace('.' + this.hostname, '').split('.')
+		const subdomains = window.location.host.replace('.' + this.hostname, '').split('.')
 		const wildcard = subdomains[subdomains.length - 1]
 		return wildcard
-	}
-
-	constructor() {
-		super()
 	}
 
 	async connectedCallback() {
@@ -60,7 +62,7 @@ export default class R4Radio extends HTMLElement {
 		console.log('CSS styles imported and inserted', $stylesLink)
 	}
 	async importComponents() {
-		const url = this.hostname === 'localhost' ? `${this.componentsUrl}/index.js` : `${this.componentsUrl}/dist/index.js`
+		const url = this.hostname === 'localhost:3000' ? `${this.componentsUrl}/index.js` : `${this.componentsUrl}/dist/index.js`
 		const Components = await import(url)
 		console.log('Javascript web-components imported', Components)
 		if (Components && Components.default) {
@@ -75,7 +77,7 @@ export default class R4Radio extends HTMLElement {
 
 		const $titleText = document.createElement('h1')
 		const $titleLink = document.createElement('a')
-		$titleLink.setAttribute('href', new URL(`https://${this.hostname || window.location.origin}`))
+		$titleLink.setAttribute('href', this.origin)
 		$titleLink.innerText = this.hostname
 		$titleText.append($titleLink)
 
