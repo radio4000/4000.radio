@@ -73,15 +73,19 @@ export default class R4Radio extends HTMLElement {
 		this.innerHTML = ''
 		const $info = document.createElement('r4-radio-home')
 
-		const $infoText = document.createElement('p')
-		$infoText.innerText = `${this.hostname} for `
+		const $titleText = document.createElement('h1')
+		const $titleLink = document.createElement('a')
+		$titleLink.setAttribute('href', new URL(`https://${this.hostname || window.location.origin}`))
+		$titleLink.innerText = this.hostname
+		$titleText.append($titleLink)
 
 		const $infoLink = document.createElement('a')
 		$infoLink.setAttribute('href', 'https://radio4000.com')
-		$infoLink.innerText = `radio4000.com`
+		const $title = document.createElement('r4-title')
+		$infoLink.append($title)
 
-		$infoText.append($infoLink)
-		$info.append($infoText)
+		$info.append($titleText)
+		$info.append($infoLink)
 		this.append($info)
 	}
 

@@ -11,6 +11,13 @@ html {
 :host {
 	--size-font: 18px;
 	--size: 1.3em;
+	--sinze-font-0: 1rem;
+	--sinze-font-h1: 2rem;
+	--sinze-font-h2: 1.8rem;
+	--sinze-font-h2: 1.6rem;
+	--sinze-font-h3: 1.4rem;
+	--sinze-font-s1: 0.9rem;
+	--sinze-font-s2: 0.8rem;
 }
 @media screen (min-width: 50rem) {
 	:root,
@@ -73,6 +80,12 @@ r4-radio-home {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+r4-radio-home h1,
+r4-radio-home r4-title {
+	font-size: var(--size-font-0);
+	margin: 0;
+	padding: var(--size);
 }
 
 r4-app-firebase {
