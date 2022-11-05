@@ -34,17 +34,21 @@ export default class R4Radio extends HTMLElement {
 		const {
 			lib: { sdk } = {}
 		} = await this.importComponents()
-		if (this.channel) {
+		if (!this.channel) {
+			return this.renderHome()
+		} else {
 			this.setAttribute('channel', this.channel)
 			const { data: channelData } = await sdk.channels.readChannel(this.channel)
 			if (channelData) {
-				this.renderChannel(this.channel)
+				return this.renderChannel(this.channel)
 			} else {
 				const { data: firebaseChannelData } = await sdk.channels.readFirebaseChannel(this.channel)
-				this.renderFirebaseChannel(firebaseChannelData)
+				if (firebaseChannelData) {
+					return this.renderFirebaseChannel(firebaseChannelData)
+				} else {
+					return this.renderNoChannel(this.channel)
+				}
 			}
-		} else {
-			this.renderHome()
 		}
 	}
 	async importStyles() {
@@ -67,8 +71,17 @@ export default class R4Radio extends HTMLElement {
 
 	renderHome() {
 		this.innerHTML = ''
-		const $info = document.createElement('article')
-		$info.innerHTML = `Welcome to <a href="https://radio4000.com"><r4-title></r4-title></a>`
+		const $info = document.createElement('r4-radio-home')
+
+		const $infoText = document.createElement('p')
+		$infoText.innerText = `${this.hostname} for `
+
+		const $infoLink = document.createElement('a')
+		$infoLink.setAttribute('href', 'https://radio4000.com')
+		$infoLink.innerText = `radio4000.com`
+
+		$infoText.append($infoLink)
+		$info.append($infoText)
 		this.append($info)
 	}
 
@@ -81,10 +94,17 @@ export default class R4Radio extends HTMLElement {
 		this.append($app)
 	}
 	renderFirebaseChannel(channel) {
+		this.innerHTML = ''
 		const $app = document.createElement('r4-app-firebase')
 		$app.setAttribute('href', window.location.origin)
 		$app.setAttribute('channel', channel.slug)
 		this.append($app)
+	}
+	renderNoChannel() {
+		this.innerHTML = ''
+		const $info = document.createElement('r4-radio-404')
+		$info.innerText = `404 - No content for channel ${this.channel}`
+		this.append($info)
 	}
 }
 
