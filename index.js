@@ -54,15 +54,15 @@ export default class R4Radio extends HTMLElement {
 		}
 	}
 	async importStyles() {
-		/* `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.29/styles/index.css" />` */
+		/* `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.29/dist/r4.css" />` */
 		const $stylesLink = document.createElement('link')
 		$stylesLink.setAttribute('rel', 'stylesheet')
-		$stylesLink.setAttribute('href', `${this.componentsUrl}/styles/index.css`)
+		$stylesLink.setAttribute('href', `${this.componentsUrl}/dist/r4.css`)
 		document.querySelector('head').append($stylesLink)
 		console.log('CSS styles imported and inserted', $stylesLink)
 	}
 	async importComponents() {
-		const url = this.hostname === 'localhost:3000' ? `${this.componentsUrl}/index.js` : `${this.componentsUrl}/dist/index.js`
+		const url = `${this.componentsUrl}/dist/r4.js`
 		const Components = await import(url)
 		console.log('Javascript web-components imported', Components)
 		if (Components && Components.default) {
