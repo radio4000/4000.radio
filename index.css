@@ -90,4 +90,10 @@ r4-radio-home r4-title {
 
 r4-app-firebase {
 	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+r4-app-firebase > iframe {
+	flex-grow: 1;
 }

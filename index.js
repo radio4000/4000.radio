@@ -24,7 +24,7 @@ export default class R4Radio extends HTMLElement {
 	/* the slug comes from the wildcard subdomain */
 	get channel() {
 		if (!window.location.host.endsWith('.' + this.hostname)) {
-			return ''
+			return this.getAttribute('channel')
 		}
 		const subdomains = window.location.host.replace('.' + this.hostname, '').split('.')
 		const wildcard = subdomains[subdomains.length - 1]
@@ -54,15 +54,15 @@ export default class R4Radio extends HTMLElement {
 		}
 	}
 	async importStyles() {
-		/* `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.29/styles/index.css" />` */
+		/* `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.29/dist/r4.css" />` */
 		const $stylesLink = document.createElement('link')
 		$stylesLink.setAttribute('rel', 'stylesheet')
-		$stylesLink.setAttribute('href', `${this.componentsUrl}/styles/index.css`)
+		$stylesLink.setAttribute('href', `${this.componentsUrl}/dist/r4.css`)
 		document.querySelector('head').append($stylesLink)
 		console.log('CSS styles imported and inserted', $stylesLink)
 	}
 	async importComponents() {
-		const url = this.hostname === 'localhost:3000' ? `${this.componentsUrl}/index.js` : `${this.componentsUrl}/dist/index.js`
+		const url = `${this.componentsUrl}/dist/r4.js`
 		const Components = await import(url)
 		console.log('Javascript web-components imported', Components)
 		if (Components && Components.default) {
@@ -138,8 +138,8 @@ class R4FirebaseApp extends HTMLElement {
 		$dialogLink.innerText = `${slug}@r4`
 		$dialogMessage.append($dialogLink)
 
-		const $dialogWarning = document.createElement('code')
-		$dialogWarning.innerText = 'This radio channel has not yet migrated to the new radio4000 systems, still in beta version.'
+		const $dialogWarning = document.createElement('p')
+		$dialogWarning.innerHTML = 'This radio channel has not yet migrated to the new Radio4000 network, still in beta version. Check <a href="https://beta.radio4000.com">beta.radio4000.com</a>.'
 
 		$dialogSlot.append($dialogMessage)
 		$dialogSlot.append($dialogWarning)
