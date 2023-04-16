@@ -24,7 +24,7 @@ export default class R4Radio extends HTMLElement {
 	/* the slug comes from the wildcard subdomain */
 	get channel() {
 		if (!window.location.host.endsWith('.' + this.hostname)) {
-			return ''
+			return this.getAttribute('channel')
 		}
 		const subdomains = window.location.host.replace('.' + this.hostname, '').split('.')
 		const wildcard = subdomains[subdomains.length - 1]
@@ -138,8 +138,8 @@ class R4FirebaseApp extends HTMLElement {
 		$dialogLink.innerText = `${slug}@r4`
 		$dialogMessage.append($dialogLink)
 
-		const $dialogWarning = document.createElement('code')
-		$dialogWarning.innerText = 'This radio channel has not yet migrated to the new radio4000 systems, still in beta version.'
+		const $dialogWarning = document.createElement('p')
+		$dialogWarning.innerHTML = 'This radio channel has not yet migrated to the new Radio4000 network, still in beta version. Check <a href="https://beta.radio4000.com">beta.radio4000.com</a>.'
 
 		$dialogSlot.append($dialogMessage)
 		$dialogSlot.append($dialogWarning)
