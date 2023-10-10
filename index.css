@@ -117,6 +117,10 @@ r4-radio-home r4-title {
 	padding: calc(var(--size) / 2);
 }
 
+r4-app {
+	flex-grow: 1;
+}
+
 r4-app-firebase {
 	flex-grow: 1;
 	display: flex;
