@@ -33,17 +33,19 @@ html {
 	r4-app {
 		--color-text: white;
 		--color-background: black;
-		--color-link: darkgray;
-		--color-accent: darkblue;
+		--color-link: orange;
+		--color-accent: slategray;
+		color-scheme: dark;
 	}
 }
 @media (prefers-color-scheme: light) {
 	:root,
 	r4-app {
 		--color-text: black;
-		--color-background: beige;
-		--color-link: blue;
-		--color-accent: snow;
+		--color-background: white;
+		--color-link: green;
+		--color-accent: lightgray;
+		color-scheme: light;
 	}
 }
 
@@ -72,6 +74,10 @@ a {
 	color: var(--color-link);
 	text-decoration: none;
 }
+a:hover,
+a:active {
+	text-decoration: underline;
+}
 
 fieldset {
 	border: none;
@@ -84,11 +90,12 @@ textarea,
 button {
 	padding: calc(var(--size) / 3);
 	font-size: var(--size-font);
+	width: 100%;
 }
 
 /* app */
 r4-radio {
-	padding: var(--size);
+	padding: calc(var(--size) / 2);
 	flex-grow: 1;
 	display: flex;
 	flex-direction: row;
@@ -152,6 +159,9 @@ r4-channel-search {
 }
 r4-channel-search ul {
 	max-width: var(--size-container);
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 r4-favicon {
@@ -176,9 +186,10 @@ r4-channel-card {
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
-	padding: calc(var(--size) / 3);
-	margin: calc(var(--size) / 3);
+	padding: calc(var(--size) / 2);
+	margin: calc(var(--size) / 2);
 	background-color: var(--color-accent);
+	border: 1px solid var(--color-text);
 }
 r4-channel-card a {
 	display: flex;
@@ -197,4 +208,8 @@ r4-avatar {
 /* hack to hide empty avatars */
 r4-avatar[image=""] {
 	display: none;
+}
+
+r4-button-play {
+	display: inline-flex;
 }
