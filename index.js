@@ -46,7 +46,7 @@ export default class R4Radio extends HTMLElement {
 		await this.importStyles();
 		const { lib: { sdk } = {} } = await this.importComponents();
 		const { pathname, subdomain } = this.slugInfo;
-		if (pathname) {
+		if (!subdomain && pathname) {
 			this.redirectToSubdomain(pathname);
 		}
 		if (!this.channel) {
