@@ -105,7 +105,7 @@ export default class R4Radio extends HTMLElement {
 
 		const $titleText = document.createElement("h1");
 		const $titleLink = document.createElement("a");
-		$titleLink.setAttribute("href", this.origin);
+		$titleLink.setAttribute("href", this.location.origin);
 		$titleLink.innerText = `<channel>.${this.hostname}`;
 		$titleText.append($titleLink);
 
