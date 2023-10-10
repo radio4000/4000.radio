@@ -142,7 +142,13 @@ export default class R4Radio extends HTMLElement {
 	renderNoChannel() {
 		this.innerHTML = "";
 		const $info = document.createElement("r4-radio-404");
-		$info.innerText = `404 - No content for channel ${this.channel}`;
+		$info.innerText = `404 - No content for channel ${this.channel}, go back to the `;
+		const $link = document.createElement("a");
+		$link.href = this.location.origin;
+		$link.innerText = "homepage";
+
+		$info.append($link);
+		$info.append(".");
 		this.append($info);
 	}
 }

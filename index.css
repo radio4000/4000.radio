@@ -34,14 +34,16 @@ html {
 		--color-text: white;
 		--color-background: black;
 		--color-link: darkgray;
+		--color-accent: darkblue;
 	}
 }
 @media (prefers-color-scheme: light) {
 	:root,
 	r4-app {
 		--color-text: black;
-		--color-background: white;
-		--color-link: cyan;
+		--color-background: beige;
+		--color-link: blue;
+		--color-accent: snow;
 	}
 }
 
@@ -90,6 +92,15 @@ r4-radio {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: row;
+}
+
+r4-radio-404 {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	white-space: pre-wrap;
 }
 
 r4-radio-home {
@@ -164,8 +175,10 @@ r4-search-form fieldset {
 r4-channel-card {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	flex-direction: column;
 	padding: calc(var(--size) / 3);
+	margin: calc(var(--size) / 3);
+	background-color: var(--color-accent);
 }
 r4-channel-card a {
 	display: flex;
@@ -180,4 +193,8 @@ r4-channel-card r4-slug {
 
 r4-avatar {
 	display: inline-flex;
+}
+/* hack to hide empty avatars */
+r4-avatar[image=""] {
+	display: none;
 }
