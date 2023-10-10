@@ -26,8 +26,9 @@ export default class R4Radio extends HTMLElement {
 	get slugInfo() {
 		const pathname = window.location.pathname.split("/")[1];
 		const subdomains = window.location.host
-			.replace("." + this.hostname, "")
-			.split(".");
+			.replace(this.hostname, "")
+			.split(".")
+			.filter((sub) => !!sub);
 		const wildcard = subdomains[subdomains.length - 1];
 		const subdomain = this.hostname === wildcard ? null : wildcard;
 		return {
