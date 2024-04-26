@@ -44,7 +44,8 @@ export default class R4Radio extends HTMLElement {
 
 	async connectedCallback() {
 		await this.importStyles();
-		const { lib: { sdk } = {} } = await this.importComponents();
+		const {sdk} = await this.importComponents();
+		this.sdk = sdk
 		const { pathname, subdomain } = this.slugInfo;
 		if (!subdomain && pathname) {
 			this.redirectToSubdomain(pathname);
@@ -53,14 +54,14 @@ export default class R4Radio extends HTMLElement {
 			return this.renderHome();
 		} else {
 			this.setAttribute("channel", this.channel);
-			const { data: channelData } = await sdk.channels.readChannel(
+			const { data: channelData } = await this.sdk.channels.readChannel(
 				this.channel,
 			);
 			if (channelData) {
 				return this.renderChannel(this.channel);
 			} else {
 				const { data: firebaseChannelData } =
-					await sdk.channels.readFirebaseChannel(this.channel);
+					await this.sdk.channels.readFirebaseChannel(this.channel);
 				if (firebaseChannelData) {
 					return this.renderFirebaseChannel(firebaseChannelData);
 				} else {
@@ -80,7 +81,7 @@ export default class R4Radio extends HTMLElement {
 		/* `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@radio4000/components@0.0.29/dist/r4.css" />` */
 		const $stylesLink = document.createElement("link");
 		$stylesLink.setAttribute("rel", "stylesheet");
-		$stylesLink.setAttribute("href", `${this.componentsUrl}/dist/r4.css`);
+		$stylesLink.setAttribute("href", `${this.componentsUrl}/dist/style.css`);
 		document.querySelector("head").append($stylesLink);
 		console.log("CSS styles imported and inserted", $stylesLink);
 	}
@@ -89,7 +90,7 @@ export default class R4Radio extends HTMLElement {
 		const Components = await import(url);
 		console.log("Javascript web-components imported", Components);
 		if (Components && Components.default) {
-			return Components.default;
+			return Components;
 		}
 		return {};
 	}
@@ -179,7 +180,7 @@ class R4FirebaseApp extends HTMLElement {
 
 		const $dialogWarning = document.createElement("p");
 		$dialogWarning.innerHTML =
-			'This radio channel has not yet migrated to the new Radio4000 network, still in beta version. Check <a href="https://beta.radio4000.com">beta.radio4000.com</a>.';
+			'This radio channel has not yet migrated to the new Radio4000 network, still in beta version. Check <a href="https://migrate.radio4000.com">migrate.radio4000.com</a>.';
 
 		$dialogSlot.append($dialogMessage);
 		$dialogSlot.append($dialogWarning);
