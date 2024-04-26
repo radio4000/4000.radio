@@ -8,208 +8,78 @@ html {
 	box-sizing: inherit;
 }
 
-/* variables */
-:root,
-:host {
-	--size-font: 18px;
-	--size: 1.3em;
-	--size-container: 40rem;
-	--size-font-0: 1rem;
-	--size-font-h1: 2rem;
-	--size-font-h2: 1.8rem;
-	--size-font-h2: 1.6rem;
-	--size-font-h3: 1.4rem;
-	--size-font-s1: 0.9rem;
-	--size-font-s2: 0.8rem;
-}
-@media screen (min-width: 50rem) {
-	:root,
-	:host {
-		--size-font: 21px;
-	}
-}
-@media (prefers-color-scheme: dark) {
-	:root,
-	r4-app {
-		--color-text: white;
-		--color-background: black;
-		--color-link: orange;
-		--color-accent: slategray;
-		color-scheme: dark;
-	}
-}
-@media (prefers-color-scheme: light) {
-	:root,
-	r4-app {
-		--color-text: black;
-		--color-background: white;
-		--color-link: green;
-		--color-accent: lightgray;
-		color-scheme: light;
-	}
-}
-
+/* delegate full viewport layout to r4-app */
 html {
 	min-height: 100%;
-	display: flex;
-	flex-direction: column;
+	background-color: transprent;
 }
 body {
 	margin: 0;
+}
+
+html,
+body,
+r4-radio,
+r4-app {
 	display: flex;
 	flex-direction: column;
-	flex-grow: 1;
 }
-
-/* variables applied */
-:root,
-:host {
-	font-size: var(--size-font);
-	background-color: var(--color-background);
-	color: var(--color-text);
-}
-
-/* text */
-a {
-	color: var(--color-link);
-	text-decoration: none;
-}
-a:hover,
-a:active {
-	text-decoration: underline;
-}
-
-fieldset {
-	border: none;
-}
-fieldset label {
-	padding: calc(var(--size) / 3);
-}
-input,
-textarea,
-button {
-	padding: calc(var(--size) / 3);
-	font-size: var(--size-font);
-	width: 100%;
-}
-
-/* app */
-r4-radio {
-	padding: calc(var(--size) / 2);
-	flex-grow: 1;
-	display: flex;
-	flex-direction: row;
-}
-
-r4-radio-404 {
-	flex-grow: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-	white-space: pre-wrap;
-}
-
-r4-radio-home {
-	flex-grow: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-}
-r4-radio-home section {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	align-self: flex-end;
-}
-r4-radio-home r4-channel-card r4-button-play {
-	display: none;
-}
-
-r4-radio-home h1,
-r4-radio-home r4-title {
-	font-size: var(--size-font-0);
-	margin: 0;
-	padding: calc(var(--size) / 2);
-}
-
+body,
+r4-radio,
 r4-app {
 	flex-grow: 1;
 }
 
-r4-app-firebase {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
+/* missing default variables; but on purpose to not enforce styles? */
+r4-app {
+	/* the defautl font size at the top most element */
+	--font-size: 18px;
+	--s: 1.3em;
+}
+@media screen (min-width: 50rem) {
+	r4-app {
+		--font-size: 21px;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	r4-app {
+		color-scheme: dark;
+		--c-bg: black;
+		--c-fg: white;
+	}
+}
+@media (prefers-color-scheme: light) {
+	r4-app {
+		color-scheme: light;
+		--c-bg: white;
+		--c-fg: black;
+	}
 }
 
-r4-app-firebase > iframe {
-	flex-grow: 1;
+/*
+	missing default styles
+*/
+
+r4-app {
+	font-size: var(--font-size);
 }
 
-r4-channel-search {
-	flex-grow: 1;
-	flex-basis: 100%;
-	align-self: flex-start;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-r4-channel-search ul {
-	max-width: var(--size-container);
-	list-style: none;
-	padding: 0;
-	margin: 0;
+/* fix page main when over the player sticky */
+r4-page-main {
+	background-color: var(--c-bg);
 }
 
-r4-favicon {
-	display: flex;
-	flex-basis: 100%;
-	justify-content: center;
-}
-r4-favicon svg {
-	fill: var(--color-link);
-	max-width: calc(var(--size) * 3);
-	max-height: calc(var(--size) * 3);
+/* fix page header links too close to each other (bad click area) */
+r4-page-header a {
+	padding: calc(var(--s) / 2);
 }
 
-r4-search-form,
-r4-search-form fieldset {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+/* fix tracks too close to each other */
+r4-list r4-list-item {
+	padding: calc(var(--s) / 2);
 }
 
-r4-channel-card {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	padding: calc(var(--size) / 2);
-	margin: calc(var(--size) / 2);
-	background-color: var(--color-accent);
-	border: 1px solid var(--color-text);
-}
-r4-channel-card a {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-}
-r4-channel-card r4-avatar,
-r4-channel-card r4-name,
-r4-channel-card r4-slug {
-	padding: calc(var(--size) / 4);
-}
-
-r4-avatar {
-	display: inline-flex;
-}
-/* hack to hide empty avatars */
-r4-avatar[image=""] {
-	display: none;
-}
-
-r4-button-play {
-	display: inline-flex;
+/* fix tracks tag */
+r4-list r4-list-item a {
+	padding: calc(var(--s) / 2);
 }
