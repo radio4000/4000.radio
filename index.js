@@ -48,7 +48,8 @@ export default class R4Radio extends HTMLElement {
 		this.sdk = sdk
 		const { pathname, subdomain } = this.slugInfo;
 		if (!subdomain && pathname) {
-			this.redirectToSubdomain(pathname);
+			/* skip redirect because we don't know where to host server for wildcard subdomain */
+			/* this.redirectToSubdomain(pathname); */
 		}
 		if (!this.channel) {
 			return this.renderHome();
