@@ -20,7 +20,7 @@
 			const appElementName = 'r4-radio'
 			customElements.define(appElementName, R4Radio)
 			const $app = document.createElement(appElementName)
-			fetch('/.env.json').then(async (data) => {
+			fetch('./.env.json').then(async (data) => {
 				let config = {}
 				try {
 					config = await data.json()
